@@ -1,0 +1,83 @@
+C:\Users\Eric\Documents\SL-emh90 - Copy\SL-emh90\bin\roslyn\csc.exe
+C:\Users\Eric\Documents\SL-emh90 - Copy\SL-emh90\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+C:\Users\Eric\Documents\SL-emh90 - Copy\SL-emh90\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+C:\Users\Eric\Documents\SL-emh90 - Copy\SL-emh90\bin\roslyn\Microsoft.CodeAnalysis.dll
+C:\Users\Eric\Documents\SL-emh90 - Copy\SL-emh90\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+C:\Users\Eric\Documents\SL-emh90 - Copy\SL-emh90\bin\roslyn\Microsoft.CSharp.Core.targets
+C:\Users\Eric\Documents\SL-emh90 - Copy\SL-emh90\bin\roslyn\Microsoft.VisualBasic.Core.targets
+C:\Users\Eric\Documents\SL-emh90 - Copy\SL-emh90\bin\roslyn\System.Collections.Immutable.dll
+C:\Users\Eric\Documents\SL-emh90 - Copy\SL-emh90\bin\roslyn\System.Reflection.Metadata.dll
+C:\Users\Eric\Documents\SL-emh90 - Copy\SL-emh90\bin\roslyn\vbc.exe
+C:\Users\Eric\Documents\SL-emh90 - Copy\SL-emh90\bin\roslyn\VBCSCompiler.exe
+C:\Users\Eric\Documents\SL-emh90 - Copy\SL-emh90\bin\roslyn\VBCSCompiler.exe.config
+C:\Users\Eric\Documents\SL-emh90 - Copy\SL-emh90\bin\SL-emh90.dll.config
+C:\Users\Eric\Documents\SL-emh90 - Copy\SL-emh90\bin\SL-emh90.dll
+C:\Users\Eric\Documents\SL-emh90 - Copy\SL-emh90\bin\SL-emh90.pdb
+C:\Users\Eric\Documents\SL-emh90 - Copy\SL-emh90\bin\Autofac.dll
+C:\Users\Eric\Documents\SL-emh90 - Copy\SL-emh90\bin\DynamicInterop.dll
+C:\Users\Eric\Documents\SL-emh90 - Copy\SL-emh90\bin\Hammock.ClientProfile.dll
+C:\Users\Eric\Documents\SL-emh90 - Copy\SL-emh90\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+C:\Users\Eric\Documents\SL-emh90 - Copy\SL-emh90\bin\Microsoft.Threading.Tasks.dll
+C:\Users\Eric\Documents\SL-emh90 - Copy\SL-emh90\bin\Microsoft.Threading.Tasks.Extensions.Desktop.dll
+C:\Users\Eric\Documents\SL-emh90 - Copy\SL-emh90\bin\Microsoft.Threading.Tasks.Extensions.dll
+C:\Users\Eric\Documents\SL-emh90 - Copy\SL-emh90\bin\MySql.Data.dll
+C:\Users\Eric\Documents\SL-emh90 - Copy\SL-emh90\bin\nunit.framework.dll
+C:\Users\Eric\Documents\SL-emh90 - Copy\SL-emh90\bin\System.Net.Http.Extensions.dll
+C:\Users\Eric\Documents\SL-emh90 - Copy\SL-emh90\bin\System.Net.Http.Primitives.dll
+C:\Users\Eric\Documents\SL-emh90 - Copy\SL-emh90\bin\TweetSharp.dll
+C:\Users\Eric\Documents\SL-emh90 - Copy\SL-emh90\bin\Newtonsoft.Json.dll
+C:\Users\Eric\Documents\SL-emh90 - Copy\SL-emh90\bin\Autofac.xml
+C:\Users\Eric\Documents\SL-emh90 - Copy\SL-emh90\bin\DynamicInterop.xml
+C:\Users\Eric\Documents\SL-emh90 - Copy\SL-emh90\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+C:\Users\Eric\Documents\SL-emh90 - Copy\SL-emh90\bin\Microsoft.Threading.Tasks.xml
+C:\Users\Eric\Documents\SL-emh90 - Copy\SL-emh90\bin\Microsoft.Threading.Tasks.Extensions.xml
+C:\Users\Eric\Documents\SL-emh90 - Copy\SL-emh90\bin\Microsoft.Threading.Tasks.Extensions.Desktop.xml
+C:\Users\Eric\Documents\SL-emh90 - Copy\SL-emh90\bin\nunit.framework.xml
+C:\Users\Eric\Documents\SL-emh90 - Copy\SL-emh90\bin\System.Net.Http.Extensions.xml
+C:\Users\Eric\Documents\SL-emh90 - Copy\SL-emh90\bin\System.Net.Http.Primitives.xml
+C:\Users\Eric\Documents\SL-emh90 - Copy\SL-emh90\bin\Newtonsoft.Json.xml
+C:\Users\Eric\Documents\SL-emh90 - Copy\SL-emh90\obj\Debug\TermProject.csproj.App.config
+C:\Users\Eric\Documents\SL-emh90 - Copy\SL-emh90\obj\Debug\SL-emh90.dll
+C:\Users\Eric\Documents\SL-emh90 - Copy\SL-emh90\obj\Debug\SL-emh90.pdb
+C:\Users\Eric\Documents\GitHub\WP-TermProject\SL-emh90\bin\roslyn\csc.exe
+C:\Users\Eric\Documents\GitHub\WP-TermProject\SL-emh90\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+C:\Users\Eric\Documents\GitHub\WP-TermProject\SL-emh90\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+C:\Users\Eric\Documents\GitHub\WP-TermProject\SL-emh90\bin\roslyn\Microsoft.CodeAnalysis.dll
+C:\Users\Eric\Documents\GitHub\WP-TermProject\SL-emh90\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+C:\Users\Eric\Documents\GitHub\WP-TermProject\SL-emh90\bin\roslyn\Microsoft.CSharp.Core.targets
+C:\Users\Eric\Documents\GitHub\WP-TermProject\SL-emh90\bin\roslyn\Microsoft.VisualBasic.Core.targets
+C:\Users\Eric\Documents\GitHub\WP-TermProject\SL-emh90\bin\roslyn\System.Collections.Immutable.dll
+C:\Users\Eric\Documents\GitHub\WP-TermProject\SL-emh90\bin\roslyn\System.Reflection.Metadata.dll
+C:\Users\Eric\Documents\GitHub\WP-TermProject\SL-emh90\bin\roslyn\vbc.exe
+C:\Users\Eric\Documents\GitHub\WP-TermProject\SL-emh90\bin\roslyn\VBCSCompiler.exe
+C:\Users\Eric\Documents\GitHub\WP-TermProject\SL-emh90\bin\roslyn\VBCSCompiler.exe.config
+C:\Users\Eric\Documents\GitHub\WP-TermProject\SL-emh90\bin\SL-emh90.dll.config
+C:\Users\Eric\Documents\GitHub\WP-TermProject\SL-emh90\bin\SL-emh90.dll
+C:\Users\Eric\Documents\GitHub\WP-TermProject\SL-emh90\bin\SL-emh90.pdb
+C:\Users\Eric\Documents\GitHub\WP-TermProject\SL-emh90\bin\Autofac.dll
+C:\Users\Eric\Documents\GitHub\WP-TermProject\SL-emh90\bin\DynamicInterop.dll
+C:\Users\Eric\Documents\GitHub\WP-TermProject\SL-emh90\bin\Hammock.ClientProfile.dll
+C:\Users\Eric\Documents\GitHub\WP-TermProject\SL-emh90\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+C:\Users\Eric\Documents\GitHub\WP-TermProject\SL-emh90\bin\Microsoft.Threading.Tasks.dll
+C:\Users\Eric\Documents\GitHub\WP-TermProject\SL-emh90\bin\Microsoft.Threading.Tasks.Extensions.Desktop.dll
+C:\Users\Eric\Documents\GitHub\WP-TermProject\SL-emh90\bin\Microsoft.Threading.Tasks.Extensions.dll
+C:\Users\Eric\Documents\GitHub\WP-TermProject\SL-emh90\bin\MySql.Data.dll
+C:\Users\Eric\Documents\GitHub\WP-TermProject\SL-emh90\bin\nunit.framework.dll
+C:\Users\Eric\Documents\GitHub\WP-TermProject\SL-emh90\bin\System.Net.Http.Extensions.dll
+C:\Users\Eric\Documents\GitHub\WP-TermProject\SL-emh90\bin\System.Net.Http.Primitives.dll
+C:\Users\Eric\Documents\GitHub\WP-TermProject\SL-emh90\bin\TweetSharp.dll
+C:\Users\Eric\Documents\GitHub\WP-TermProject\SL-emh90\bin\Newtonsoft.Json.dll
+C:\Users\Eric\Documents\GitHub\WP-TermProject\SL-emh90\bin\Autofac.xml
+C:\Users\Eric\Documents\GitHub\WP-TermProject\SL-emh90\bin\DynamicInterop.xml
+C:\Users\Eric\Documents\GitHub\WP-TermProject\SL-emh90\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+C:\Users\Eric\Documents\GitHub\WP-TermProject\SL-emh90\bin\Microsoft.Threading.Tasks.xml
+C:\Users\Eric\Documents\GitHub\WP-TermProject\SL-emh90\bin\Microsoft.Threading.Tasks.Extensions.xml
+C:\Users\Eric\Documents\GitHub\WP-TermProject\SL-emh90\bin\Microsoft.Threading.Tasks.Extensions.Desktop.xml
+C:\Users\Eric\Documents\GitHub\WP-TermProject\SL-emh90\bin\nunit.framework.xml
+C:\Users\Eric\Documents\GitHub\WP-TermProject\SL-emh90\bin\System.Net.Http.Extensions.xml
+C:\Users\Eric\Documents\GitHub\WP-TermProject\SL-emh90\bin\System.Net.Http.Primitives.xml
+C:\Users\Eric\Documents\GitHub\WP-TermProject\SL-emh90\bin\Newtonsoft.Json.xml
+C:\Users\Eric\Documents\GitHub\WP-TermProject\SL-emh90\obj\Debug\TermProject.csproj.App.config
+C:\Users\Eric\Documents\GitHub\WP-TermProject\SL-emh90\obj\Debug\TermProject.csprojResolveAssemblyReference.cache
+C:\Users\Eric\Documents\GitHub\WP-TermProject\SL-emh90\obj\Debug\SL-emh90.dll
+C:\Users\Eric\Documents\GitHub\WP-TermProject\SL-emh90\obj\Debug\SL-emh90.pdb
