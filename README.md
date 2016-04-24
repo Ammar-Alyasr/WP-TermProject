@@ -7,11 +7,11 @@ Group term project for Windows Programming. A full-scale multi-tier enterprise a
   - User page
   - Admin Page (CRUD viewer)
   - Role based security
-  - Create Database of Users 
-      id (auto inc./primary key)
-      username,
-      pass,
-      twitter
+  - Create Database of Users <br/>
+      -id (auto inc./primary key) <br/>
+      -username, <br/>
+      -pass, <br/>
+      -twitter <br/>
   - Apply Crawler logic to other Charts
 
 ###Completed
