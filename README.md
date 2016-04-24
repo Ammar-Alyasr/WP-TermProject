@@ -1,7 +1,7 @@
 # WP-TermProject
 Group term project for Windows Programming. A full-scale multi-tier enterprise application using ASP.NET
 
-#TODO
+###TODO
   - Login page
   - Public page (current twitter trends?)
   - User page
@@ -14,6 +14,6 @@ Group term project for Windows Programming. A full-scale multi-tier enterprise a
       twitter
   - Apply Crawler logic to other Charts
 
-#Completed
+###Completed
   - Twitter Crawler logic
 
