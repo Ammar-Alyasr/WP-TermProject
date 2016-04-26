@@ -2,8 +2,8 @@
 Group term project for Windows Programming. A full-scale multi-tier enterprise application using ASP.NET
 
 ###TODO
-  - Login page
-  - Public page (current twitter trends?)
+  - Sign in page
+  - Landing page (current twitter trends?)
   - User page
   - Admin Page (CRUD viewer)
   - Role based security
@@ -22,3 +22,4 @@ Group term project for Windows Programming. A full-scale multi-tier enterprise a
       - Ability to load thousands of tweets at once
       - Getting location of followers
       - Getting location of each user's tweets
+  - Login page
