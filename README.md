@@ -17,7 +17,7 @@ Group term project for Windows Programming. A full-scale multi-tier enterprise a
 ###Completed
   - Basic Twitter Crawler logic
 
-###Working On
+###Eric: Working On
   - Advance Twitter Crawler logic
       - Ability to load thousands of tweets at once
       - Getting location of followers
