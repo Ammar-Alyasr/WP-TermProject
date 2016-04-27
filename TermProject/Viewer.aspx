@@ -15,8 +15,10 @@
             <p>Enter a term to return all occurences in recent tweets</p>
             <p>Search with a '#' at the beginning to search by hashtag</p>
             <p>Search with a '@' at the beginning to search a specified user's timeline</p>
-            <asp:TextBox ID="tb_input" runat="server"></asp:TextBox>
-            <asp:Button ID="btn_serach" runat="server" Text="Get Info" Height="26px" OnClick="btn_serach_Click" />
+            <p>Note: Because of how the twitter API works its best to do count values divisible by 200</p>
+            <asp:TextBox ID="tb_input" runat="server" placeholder="Query"></asp:TextBox>
+            <asp:TextBox ID="tb_count" runat="server" placeholder="Count"></asp:TextBox>
+            <asp:Button ID="btn_serach" runat="server" Text="Search" Height="26px" OnClick="btn_serach_Click" />
             <div id="mydiv" runat="server"></div>
         </div>
         <!-- wordcloud view-

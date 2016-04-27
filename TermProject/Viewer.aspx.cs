@@ -9,37 +9,17 @@ namespace TermProject
     {
         private readonly Crawler _crawler = new Crawler();
 
-        protected void Page_Load(object sender, EventArgs e)
-        {
-            //
-        }
-
         protected void btn_serach_Click(object sender, EventArgs e)
         {
-            IEnumerable<TwitterStatus> tweets;
-            //switch depending on type of input
-            switch (tb_input.Text[0])
+            var tweets = _crawler.GetUserTimeline(tb_input.Text, int.Parse(tb_count.Text));
+            string output = "";
+            int count = 0;
+            foreach (var tweet in tweets)
             {
-
-                case '#':
-                    //get tweets by search
-                    tweets = _crawler.GetSearch(tb_input.Text, 100); 
-                    break;
-                case '@':
-                    //get tweets by usertimeline
-                    tweets = _crawler.GetUserTimeline(tb_input.Text, 200);
-                    break;
-                default:
-                    tweets = _crawler.GetSearch(tb_input.Text, 100);
-                    break;
-
+                count++;
+                output += count + ": " + tweet.CreatedDate + " - " + tweet.Text + "<br />";
             }
-            //parse hashtags from tweets, then convert to a string for the "Order" func
-            string hashtags = _crawler.HashtagToString(_crawler.GetHashtags(tweets));
-            // send to process as a dictionary to order the occurances
-            var list = _crawler.Order(hashtags);
-            // print result into the div
-            mydiv.InnerHtml = _crawler.PrintList(list); 
+            mydiv.InnerHtml = output;
         }
     }
 }
