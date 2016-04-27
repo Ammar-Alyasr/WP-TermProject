@@ -34,7 +34,7 @@ namespace TermProject
          -----------------------------------------------------------------------------------------------------------------------*/
 
         // returns tweets based on a term
-        public  IEnumerable<TwitterStatus> GetSearch(string query, int count)
+        public IEnumerable<TwitterStatus> GetSearch(string query, int count)
         {
             var options = new SearchOptions
             {
