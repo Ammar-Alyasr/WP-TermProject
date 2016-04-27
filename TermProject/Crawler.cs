@@ -33,29 +33,87 @@ namespace TermProject
          * 
          -----------------------------------------------------------------------------------------------------------------------*/
 
-        // returns tweets based on a term
-        public IEnumerable<TwitterStatus> GetSearch(string query, int count)
+        // returns tweets based on a term up to a given value
+        public IEnumerable<TwitterStatus> GetSearchResults(string query, int toValue)
         {
-            var options = new SearchOptions
+            List<TwitterStatus> allTweets = new List<TwitterStatus>();
+            string maxid = "1000000000000"; // dummy value
+            int tweetcount = 0;
+
+
+            if (maxid != null)
             {
-                Q = query,
-                Count = count,
-                Lang = "en"
-            };
-            var tweets = _service.Search(options);
-            return tweets.Statuses;
+                var tweets_search = _service.Search(new SearchOptions { Q = query, Count = Convert.ToInt32(toValue) });
+                List<TwitterStatus> resultList = new List<TwitterStatus>(tweets_search.Statuses);
+                maxid = resultList.Last().IdStr;
+                foreach (var tweet in tweets_search.Statuses)
+                {
+                    try
+                    {
+                        allTweets.Add(tweet);
+                        tweetcount++;
+                    }
+                    catch { }
+                }
+
+                while (maxid != null && tweetcount < Convert.ToInt32(toValue))
+                {
+                    maxid = resultList.Last().IdStr;
+                    tweets_search = _service.Search(new SearchOptions { Q = query, Count = Convert.ToInt32(toValue), MaxId = Convert.ToInt64(maxid) });
+                    resultList = new List<TwitterStatus>(tweets_search.Statuses);
+                    foreach (var tweet in tweets_search.Statuses)
+                    {
+                        try
+                        {
+                            allTweets.Add(tweet);
+                            tweetcount++;
+                        }
+                        catch { }
+                    }
+                }
+
+            }
+
+            return allTweets;
         }
 
-        // returns tweets based on a user's timeline
-        public IEnumerable<TwitterStatus> GetUserTimeline(string name, int count)
+        // returns tweets based on a user's timeline up to a given value
+        public List<TwitterStatus> GetUserTimeline(string name, int toValue)
         {
-            var options = new ListTweetsOnUserTimelineOptions()
+            List<TwitterStatus> allTweets = new List<TwitterStatus>();
+            int tweetcount = 0;
+
+            var tweets = _service.ListTweetsOnUserTimeline(new ListTweetsOnUserTimelineOptions
             {
                 ScreenName = name,
-                Count = count
-            };
-            var tweets = _service.ListTweetsOnUserTimeline(options);
-            return tweets;
+                Count = toValue
+            });
+            List<TwitterStatus> resultList = new List<TwitterStatus>(tweets);
+            var maxid = resultList.Last().IdStr;
+            foreach (var tweet in tweets)
+            {
+                allTweets.Add(tweet);
+                tweetcount++;
+            }
+
+            while (maxid != null && tweetcount < toValue)
+            {
+                maxid = resultList.Last().IdStr;
+                tweets = _service.ListTweetsOnUserTimeline(new ListTweetsOnUserTimelineOptions
+                {
+                    ScreenName = name,
+                    Count = toValue,
+                    MaxId = Convert.ToInt64(maxid)
+                });
+                resultList = new List<TwitterStatus>(tweets);
+                foreach (var tweet in tweets)
+                {
+                    allTweets.Add(tweet);
+                    tweetcount++;
+                }
+            }
+
+            return allTweets;
         }
 
         /*------------------------------------------------------------------------------------------------------------------------
@@ -105,24 +163,58 @@ namespace TermProject
 
         // TODO
         // still working on this one. It returns location of all a user's followers
-        public void GetFollowerLocations(string name)
+        public string GetFollowerLocations(string name)
         {
-            var options = new ListFollowersOptions
+            ListFollowersOptions options = new ListFollowersOptions
             {
                 ScreenName = name,
-                Count = 100,
+                IncludeUserEntities = true,
                 SkipStatus = false,
-                IncludeUserEntities = true
+                Cursor = -1
             };
+            var lstFollowers = new List<TwitterUser>();
 
-            var usersfollowers = _service.ListFollowers(options);
-            string str = "";
-            foreach (var follower in usersfollowers)
+            TwitterCursorList<TwitterUser> followers = _service.ListFollowers(options);
+
+            if (followers == null)
             {
-                if (string.IsNullOrEmpty(follower.Location) || follower.Location.Contains("?")) continue;
-                str += follower.Location + "\n";
+                //ignore
             }
-            Console.WriteLine(str);
+            else
+            {
+                while (followers.NextCursor != null)
+                {
+                    options.Cursor = followers.NextCursor;
+                    followers = _service.ListFollowers(options);
+
+
+                    if (followers == null)
+                    {
+                        //ignore
+                    }
+                    else
+                    {
+                        lstFollowers.AddRange(followers);
+                    }
+
+                    if (followers?.NextCursor != null && followers.NextCursor != 0)
+                    {
+                        options.Cursor = followers.NextCursor;
+                        followers = _service.ListFollowers(options);
+                    }
+                    else break;
+                }
+            }
+
+            string str = "";
+            int count = 0;
+            foreach (var follower in lstFollowers)
+            {
+                count++;
+                str += count + ": " + follower.ScreenName + "<br/>";
+            }
+
+            return str;
         }
 
         // returns the most popular tweet with fav and rt values
