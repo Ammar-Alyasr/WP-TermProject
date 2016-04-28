@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text.RegularExpressions;
 using TweetSharp;
@@ -37,43 +38,39 @@ namespace TermProject
         public IEnumerable<TwitterStatus> GetSearchResults(string query, int toValue)
         {
             List<TwitterStatus> allTweets = new List<TwitterStatus>();
-            string maxid = "1000000000000"; // dummy value
+            string maxid;
             int tweetcount = 0;
 
-
-            if (maxid != null)
+            var tweets_search = _service.Search(new SearchOptions
             {
-                var tweets_search = _service.Search(new SearchOptions { Q = query, Count = Convert.ToInt32(toValue) });
-                List<TwitterStatus> resultList = new List<TwitterStatus>(tweets_search.Statuses);
-                maxid = resultList.Last().IdStr;
-                foreach (var tweet in tweets_search.Statuses)
-                {
-                    try
-                    {
-                        allTweets.Add(tweet);
-                        tweetcount++;
-                    }
-                    catch { }
-                }
-
-                while (maxid != null && tweetcount < Convert.ToInt32(toValue))
-                {
-                    maxid = resultList.Last().IdStr;
-                    tweets_search = _service.Search(new SearchOptions { Q = query, Count = Convert.ToInt32(toValue), MaxId = Convert.ToInt64(maxid) });
-                    resultList = new List<TwitterStatus>(tweets_search.Statuses);
-                    foreach (var tweet in tweets_search.Statuses)
-                    {
-                        try
-                        {
-                            allTweets.Add(tweet);
-                            tweetcount++;
-                        }
-                        catch { }
-                    }
-                }
+                Q = query,
+                Count = toValue
+            });
+            List<TwitterStatus> resultList = new List<TwitterStatus>(tweets_search.Statuses);
+            maxid = resultList.Last().IdStr;
+            foreach (var tweet in tweets_search.Statuses)
+            {
+                allTweets.Add(tweet);
+                tweetcount++;
 
             }
 
+            while (maxid != null && tweetcount < toValue)
+            {
+                maxid = resultList.Last().IdStr;
+                tweets_search = _service.Search(new SearchOptions
+                {
+                    Q = query,
+                    Count = toValue,
+                    MaxId = Convert.ToInt64(maxid)
+                });
+                resultList = new List<TwitterStatus>(tweets_search.Statuses);
+                foreach (var tweet in tweets_search.Statuses)
+                {
+                    allTweets.Add(tweet);
+                    tweetcount++;
+                }
+            }
             return allTweets;
         }
 
@@ -235,6 +232,24 @@ namespace TermProject
             return $"{tweet[index].Text}\n{tweet[index].FavoriteCount} Favorites, {tweet[index].RetweetCount} Retweets";
         }
 
+
+        public string GetUserProfileImage(string name)
+        {
+            var url = _service.GetUserProfileFor(new GetUserProfileForOptions {ScreenName = name}).ProfileImageUrl;
+            url = Regex.Replace(url, "_normal", string.Empty);
+            return url;
+        }
+
+        public string GetBannerURL(string name)
+        {
+            return _service.GetUserProfileFor(new GetUserProfileForOptions { ScreenName = name }).ProfileBannerUrl;
+        }
+
+        public string GetUserName(string name)
+        {
+            return _service.GetUserProfileFor(new GetUserProfileForOptions { ScreenName = name }).Name;
+        }
+
         /*------------------------------------------------------------------------------------------------------------------------
          * 
          *  Convert to string
@@ -271,6 +286,14 @@ namespace TermProject
          * 
          -----------------------------------------------------------------------------------------------------------------------*/
 
+        readonly HashSet<string> _stopWords = new HashSet<string>
+        {
+            "a" , "about" , "above" , "after" , "again" , "against" , "all" , "am", "amp" , "an", "and", "any", "are", "aren't", "as", "at", "be", "because", "been", "before", "being", "below", "between", "both", "but", "by", "can", "can't", "cannot", "could", "couldn't", "did", "didn't", "do", "does", "doesn't", "doing", "don't", "down", "during", "each" , "few",
+            "for", "from", "further", "get", "had", "hadn't", "has", "hasn't", "have", "haven't", "having", "he", "he'd", "he'll", "he's", "her", "here", "here's", "hers", "herself", "him", "himself", "his", "how", "how's", "http", "https", "i", "i'd", "i'll", "i'm", "i've", "if", "in", "into", "is", "isn't", "it", "it's", "its", "itself", "just", "let's", "ll", "me", "more", "most", "mustn't",
+            "my", "myself", "no", "nor", "not", "of", "off", "on", "once", "only", "or", "other", "ought", "our", "ours" , "ourselves", "out", "over", "own", "re", "rd","rt", "same", "shan't", "she", "she'd", "she'll", "she's", "should", "shouldn't", "so", "some","st" ,"such", "than", "that", "that's", "the", "their", "theirs", "them", "themselves", "then", "there", "there's", "these",
+            "they", "they'd", "they'll", "they're", "they've","this", "those", "through", "to", "too", "under", "until", "up", "us","ve", "very", "was", "wasn't", "we", "we'd", "we'll", "we're", "we've", "were", "weren't", "what", "what's", "when", "when's", "where", "where's", "which", "while", "who", "who's", "whom", "why", "why's", "will", "with", "won't", "would",
+            "wouldn't", "you", "you'd", "you'll", "you're", "you've", "your", "yours", "yourself", "yourselves"
+        };
 
         // orders the words by count (no count cutouff)
         public Dictionary<string, int> Order(string tweets)
@@ -280,6 +303,9 @@ namespace TermProject
             foreach (string word in words)
             {
                 if (word == "") continue; //ignore the null that kept appearing
+                if (word.Length < 2) continue;
+                if (_stopWords.Contains(word)) continue;
+
                 if (!dictionary.ContainsKey(word)) dictionary.Add(word, 1);
                 else dictionary[word]++;
             }
@@ -295,10 +321,13 @@ namespace TermProject
             foreach (string word in words)
             {
                 if (word == "") continue; //ignore the null that kept appearing
+                if (word.Length < 2) continue;
+                if(_stopWords.Contains(word)) continue;
+                 
                 if (!dictionary.ContainsKey(word)) dictionary.Add(word, 1);
                 else dictionary[word]++;
             }
-            var keysToRemove = dictionary.Where(kvp => kvp.Value == cutoff) // <--- value here is cutoff for word freq.
+            var keysToRemove = dictionary.Where(kvp => kvp.Value <= cutoff) // <--- value here is cutoff for word freq.
                 .Select(kvp => kvp.Key)
                 .ToArray();
 
