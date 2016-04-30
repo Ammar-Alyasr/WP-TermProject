@@ -87,14 +87,16 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
-    <Content Include="Manage-Style.css" />
-    <Content Include="Manage.aspx" />
+    <Content Include="css\Login-Style.css" />
+    <Content Include="css\Manage-Style.css" />
+    <Content Include="Viewer\Manage\Manage.aspx" />
     <Content Include="SignUp.aspx" />
-    <Content Include="Viewer-Style.css" />
-    <Content Include="Login-Style.css" />
     <Content Include="Login.aspx" />
-    <Content Include="Viewer.aspx" />
+    <Content Include="css\Viewer-Style.css" />
+    <Content Include="Viewer\Viewer.aspx" />
     <Content Include="packages.config" />
+    <Content Include="Viewer\Web.config" />
+    <Content Include="Viewer\Manage\Web.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -113,11 +115,11 @@
     <Compile Include="SignUp.aspx.designer.cs">
       <DependentUpon>SignUp.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Viewer.aspx.cs">
+    <Compile Include="Viewer\Viewer.aspx.cs">
       <DependentUpon>Viewer.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Viewer.aspx.designer.cs">
+    <Compile Include="Viewer\Viewer.aspx.designer.cs">
       <DependentUpon>Viewer.aspx</DependentUpon>
     </Compile>
     <Compile Include="Crawler.cs" />

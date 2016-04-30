@@ -1,10 +1,10 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Viewer.aspx.cs" Inherits="TermProject.Viewer" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Viewer.aspx.cs" Inherits="TermProject.Viewer.Viewer" %>
 
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="Viewer-Style.css" />
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" type="text/css" href="../css/Viewer-Style.css" />
     <title>WP-Term Project</title>
 </head>
 <body>
@@ -34,11 +34,11 @@
 
         <div id="nav">
             <ul id="nav-content">
-                <li><a href="Login.aspx">Log Out</a></li>
+                <li><a href="../Login.aspx">Log Out</a></li>
                 <li><a href="Viewer.aspx">Home</a></li>
                 <li><a href="#">Search</a></li>
                 <li><a href="#">Edit Account</a></li>
-                <li><a href="Manage.aspx">Manage Users</a></li>
+                <li ID="manage" runat="server"><a href="Manage/Manage.aspx">Manage Users</a></li>
             </ul>
         </div>
     </div>

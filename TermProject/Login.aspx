@@ -5,7 +5,7 @@
 <html>
 <head>
     <title>Login</title>
-    <link href="Login-Style.css" rel="stylesheet" type="text/css" />
+    <link href="css/Login-Style.css" rel="stylesheet" type="text/css" />
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600" rel="stylesheet" type="text/css">
 </head>
 <body>
@@ -54,7 +54,7 @@
     }
 	
 	
-	public void SignUpPage(Object sender, EventArgs e)
+	public void SignUpPage(object sender, EventArgs e)
 	{
 		Response.Redirect ("SignUp.aspx");
 	}
@@ -78,7 +78,7 @@
 
             MySqlCommand command = new MySqlCommand(builder.ToString(), connection);
 
-            Int64 count = (Int64) command.ExecuteScalar ();
+            long count = (long) command.ExecuteScalar ();
 			return(count > 0);
         }
         catch (MySqlException)

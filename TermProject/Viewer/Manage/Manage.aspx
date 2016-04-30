@@ -6,7 +6,7 @@
 <html>
 <head>
     <title>Manage Users</title>
-    <link href="Manage-Style.css" rel="stylesheet" type="text/css" />
+    <link href="../../css/Manage-Style.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
 
@@ -103,12 +103,12 @@
 
                     <asp:TemplateField>
                         <ItemTemplate>
-                            <asp:ImageButton CssClass="linkBtn" ImageUrl="images/delete.png" ID="delBtn" runat="server" CommandName="Delete"></asp:ImageButton>
-                            <asp:ImageButton CssClass="linkBtn" ImageUrl="images/edit.png" ID="editBtn" runat="server" OnClientClick="removePadding()" CommandName="Edit"></asp:ImageButton>
+                            <asp:ImageButton CssClass="linkBtn" ImageUrl="../../images/delete.png" ID="delBtn" runat="server" CommandName="Delete"></asp:ImageButton>
+                            <asp:ImageButton CssClass="linkBtn" ImageUrl="../../images/edit.png" ID="editBtn" runat="server" OnClientClick="removePadding()" CommandName="Edit"></asp:ImageButton>
                         </ItemTemplate>
                         <EditItemTemplate>
-                            <asp:ImageButton CssClass="linkBtn" ImageUrl="images/check.png" ID="updateBtn" runat="server" CommandName="Update" ValidationGroup="edit"></asp:ImageButton>
-                            <asp:ImageButton CssClass="linkBtn" ImageUrl="images/close.png" ID="cancelBtn" runat="server" CommandName="Cancel"></asp:ImageButton>
+                            <asp:ImageButton CssClass="linkBtn" ImageUrl="../../images/check.png" ID="updateBtn" runat="server" CommandName="Update" ValidationGroup="edit"></asp:ImageButton>
+                            <asp:ImageButton CssClass="linkBtn" ImageUrl="../../images/close.png" ID="cancelBtn" runat="server" CommandName="Cancel"></asp:ImageButton>
                         </EditItemTemplate>
                         <FooterTemplate>
                             <asp:Button ID="addBtn" runat="server" Text="Add" CommandName="Insert" oncliValidationGroup="Add" />

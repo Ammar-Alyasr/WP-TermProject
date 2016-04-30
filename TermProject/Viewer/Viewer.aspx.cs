@@ -3,7 +3,7 @@ using System.Text;
 using System.Web.UI;
 using MySql.Data.MySqlClient;
 
-namespace TermProject
+namespace TermProject.Viewer
 {
     public partial class Viewer : Page
     {
@@ -15,9 +15,12 @@ namespace TermProject
 
         protected void Page_Load(object sender, EventArgs e)
         {
+           // var twitter = GetUserTwitter(User.Identity.Name);
             ProfileUrl = Crawler.GetUserProfileImage(GetUserTwitter(User.Identity.Name));
             Name = Crawler.GetUserName(GetUserTwitter(User.Identity.Name));
             BannerUrl = Crawler.GetBannerURL(GetUserTwitter(User.Identity.Name));
+
+            if (!IsAdmin()) manage.Visible = false;
         }
 
         public string GetUserTwitter(string name)
@@ -30,18 +33,13 @@ namespace TermProject
                 connection.Open();
 
                 StringBuilder builder = new StringBuilder();
-                builder.Append("select twitter from accounts " +
-                    "where username = \'");
+                builder.Append("select twitter from accounts where username = \'");
                 builder.Append(name);
                 builder.Append("\'");
 
-                MySqlCommand command = new MySqlCommand(builder.ToString(),
-                    connection);
-
+                MySqlCommand command = new MySqlCommand(builder.ToString(),connection);
                 object twitter = command.ExecuteScalar();
-
-                if (twitter is DBNull)
-                    return null;
+                if (twitter is DBNull) return null;
 
                 return (string)twitter;
             }
@@ -53,6 +51,11 @@ namespace TermProject
             {
                 connection.Close();
             }
+        }
+
+        private bool IsAdmin()
+        {
+            return User.IsInRole("admin");
         }
 
         protected void btn_serach_Click(object sender, EventArgs e)
