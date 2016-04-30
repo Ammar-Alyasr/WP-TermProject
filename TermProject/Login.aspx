@@ -22,7 +22,8 @@
                 <asp:Button ID="btn_login" Text="Login" OnClick="OnLogIn" runat="server" />
             </div>
             <div id="signin">
-                <p>New User?<a href="#">Sign Up</a></p>
+                <p>New User?</p>
+				<asp:Button ID="btn_SignUp" Text="Sign Up" OnClick="SignUpPage" runat="server" />
             </div>
         </form>
     </div>
@@ -45,13 +46,19 @@
                 HttpCookie cookie = Response.Cookies[FormsAuthentication.FormsCookieName];
                 cookie.Expires = DateTime.Now + new TimeSpan(0, 0, 8, 0);
             }
-
             Response.Redirect(url);
-
         }
         else Output.Text = "Invalid login";
+		
+		
     }
-
+	
+	
+	public void SignUpPage(Object sender, EventArgs e)
+	{
+		Response.Redirect ("SignUp.aspx");
+	}
+	
     private static bool CustomAuthenticate(string username, string password)
     {
         MySqlConnection connection = new MySqlConnection("server = us-cdbr-iron-east-03.cleardb.net;" +
@@ -71,14 +78,8 @@
 
             MySqlCommand command = new MySqlCommand(builder.ToString(), connection);
 
-            object role = command.ExecuteScalar();
-            int count;
-            if (int.TryParse(role.ToString(), out count))
-            {
-                return count > 0;
-            }
-            else return false;
-
+            Int64 count = (Int64) command.ExecuteScalar ();
+			return(count > 0);
         }
         catch (MySqlException)
         {

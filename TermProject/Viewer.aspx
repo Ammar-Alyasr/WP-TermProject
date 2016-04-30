@@ -10,7 +10,6 @@
 <body>
 
     <div id="container">
-
         <div id="content" runat="server">
             <div id="header-back"style="background-image:url(<%=BannerUrl%>)"></div>
             <div id="header">
@@ -35,10 +34,11 @@
 
         <div id="nav">
             <ul id="nav-content">
-                <li><a href="#">Login</a></li>
-                <li><a href="#">Home</a></li>
+                <li><a href="Login.aspx">Log Out</a></li>
+                <li><a href="Viewer.aspx">Home</a></li>
                 <li><a href="#">Search</a></li>
                 <li><a href="#">Edit Account</a></li>
+                <li><a href="Manage.aspx">Manage Users</a></li>
             </ul>
         </div>
     </div>

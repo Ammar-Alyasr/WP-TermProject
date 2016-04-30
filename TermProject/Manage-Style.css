@@ -1,0 +1,168 @@
+﻿body {
+    font-family: 'Open Sans', sans-serif;
+    background-color: #777f90;
+    margin: 0;
+    width: 100%;
+}
+
+form {
+    overflow-x: auto;
+}
+
+
+#container {
+    position: relative;
+    top: 240px;
+    width: 70%;
+    min-width: 720px;
+    overflow-x: auto;
+    background-color: white;
+    margin: 0 auto;
+    -ms-border-radius: 6px;
+    border-radius: 6px;
+    -webkit-box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    -ms-box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
+
+#top {
+    width: 90%;
+    margin: 40px auto;
+}
+
+#sl-title {
+    color: #325282;
+    margin: 35px 0;
+    display: inline;
+}
+
+
+.myGrid {
+    width: 90%;
+    position: relative;
+    margin: 0 auto;
+    background-color: #fff;
+    border: none;
+    overflow-x: auto;
+}
+
+    .myGrid td {
+        vertical-align: top;
+    }
+
+.header {
+    overflow: hidden;
+    position: relative;
+    border-bottom: 2px solid #e5e5e5;
+    height: 30px;
+}
+
+    .header th {
+        color: #385b91;
+        font-weight: bold;
+        line-height: 40px;
+        text-align: left;
+        white-space: nowrap;
+        padding: 7px 7px;
+    }
+
+td, th {
+    border: none;
+    word-wrap: break-word;
+    max-width: 200px;
+    -moz-min-width: 70px;
+    -ms-min-width: 70px;
+    -o-min-width: 70px;
+    -webkit-min-width: 70px;
+    min-width: 70px;
+}
+
+
+.trow1 {
+    background: #fff;
+}
+
+.trow2 {
+    background: #fbfbfb;
+}
+
+    .trow1 td, .trow2 td {
+        font-size: 14px;
+        color: #555;
+        line-height: 28px;
+        text-align: left;
+        padding: 12px;
+        padding-left: 8px;
+    }
+
+.foot td{
+    padding: 12px 8px;
+}
+
+input[type='text'], select {
+    font-family: 'Open Sans', sans-serif; 
+    -webkit-transition: all .2s ease-in-out;
+    -moz-transition: all .2s ease-in-out;
+    -ms-transition: all .2s ease-in-out;
+    -o-transition: all .2s ease-in-out;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    outline: none;
+    color: #555;
+    height: 28px;
+    padding-left: 5px;
+    width: 100%;
+    font-size: 14px;
+    background-color: transparent;
+}
+
+    input[type='text']:focus, select:focus {
+        -webkit-box-shadow: 0 0 3px #385b91;
+        -ms-box-shadow: 0 0 3px #385b91;
+        box-shadow: 0 0 3px #385b91;
+        border: 1px solid #ddd;
+    }
+
+
+#myGridView_addBtn, #btn_back, input[type='submit'] {
+    font-family: 'Open Sans', sans-serif;
+    border: none;
+    color: white;
+    width: 100px;
+    height: 28px;
+    margin: 0 10px;
+    -ms-border-radius: 3px;
+    border-radius: 3px;
+    background-color: #385b91;
+}
+
+    #myGridView_addBtn:hover, #btn_back:hover, input[type='submit']:hover {
+        background-color: #869bbc;
+        cursor: pointer;
+        -webkit-transition: all .2s ease-in-out;
+        -moz-transition: all .2s ease-in-out;
+        -ms-transition: all .2s ease-in-out;
+        -o-transition: all .2s ease-in-out;
+    }
+
+#myGridView_addBtn {
+    float: right;
+    margin: 0;
+}
+
+input[type='submit'] {
+    width: 80px;
+}
+
+.linkBtn {
+    width: 17px;
+    margin: 0 18px;
+    float: right;
+}
+
+.reqField {
+    font-size: 14px;
+    color: #9b3598;
+    font-weight: bold;
+    padding: 5px;
+}
