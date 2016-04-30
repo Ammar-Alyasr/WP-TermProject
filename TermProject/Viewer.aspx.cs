@@ -8,9 +8,9 @@ namespace TermProject
     {
         private static readonly Crawler _crawler = new Crawler();
 
-        public string ProfileUrl = _crawler.GetUserProfileImage("cavs");
-        public string Name = _crawler.GetUserName("cavs");
-        public string BannerUrl = _crawler.GetBannerURL("cavs");
+        public string ProfileUrl = _crawler.GetUserProfileImage("browns");
+        public string Name = _crawler.GetUserName("browns");
+        public string BannerUrl = _crawler.GetBannerURL("browns");
 
         protected void btn_serach_Click(object sender, EventArgs e)
         {
