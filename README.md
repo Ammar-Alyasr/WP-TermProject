@@ -5,8 +5,6 @@ Group term project for Windows Programming. A full-scale multi-tier enterprise a
   - Sign in page CSS
   - Login page CSS
   - Manage Page CSS
-  - User Authentication
-  - User Authorization
   - Apply Crawler logic to Charts
 
 ###Completed
@@ -15,3 +13,5 @@ Group term project for Windows Programming. A full-scale multi-tier enterprise a
   - Created Database
   - Login/Sign in
   - Manage Page
+  - User Authentication
+  - User Authorization
