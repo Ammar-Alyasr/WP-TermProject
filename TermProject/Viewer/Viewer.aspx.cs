@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text;
+using System.Web.Security;
 using System.Web.UI;
 using MySql.Data.MySqlClient;
+using Newtonsoft.Json;
 
 namespace TermProject.Viewer
 {
@@ -13,14 +16,74 @@ namespace TermProject.Viewer
         public string Name;
         public string BannerUrl;
 
+        public string TweetCount;
+        public string FollwersCount;
+        public string FollowingCount;
+        public string Date;
+
+        public Tweet latestTweet;
+        public Tweet popTweet;
+        public string latestText;
+        public int latestFavs;
+        public int lastestRTs;
+        public string popText;
+        public int popFavs;
+        public int PopRts;
+
+        public string tweetsJson;
+        public string tweetsJsonKeys;
+        public string tweetsJsonVals;
+
+        public string hashJson;
+        public string hashJsonKeys;
+        public string hashJsonVals;
+
+        public string mentionsJson;
+        public string mentionsJsonKeys;
+        public string mentionsJsonVals;
+
+        public Dictionary<string, int> Tweets;
+
         protected void Page_Load(object sender, EventArgs e)
         {
-           // var twitter = GetUserTwitter(User.Identity.Name);
-            ProfileUrl = Crawler.GetUserProfileImage(GetUserTwitter(User.Identity.Name));
-            Name = Crawler.GetUserName(GetUserTwitter(User.Identity.Name));
-            BannerUrl = Crawler.GetBannerURL(GetUserTwitter(User.Identity.Name));
-
             if (!IsAdmin()) manage.Visible = false;
+
+            var name = GetUserTwitter(User.Identity.Name);
+            var account = Crawler.GetProfileFor(name);
+            var tweets = Crawler.GetUserTimeline(name, 1000);
+
+            ProfileUrl = Crawler.GetUserProfileImage(account);
+            Name = Crawler.GetUserName(account);
+            BannerUrl = Crawler.GetBannerUrl(account);
+
+            TweetCount = Crawler.GetTweetsCount(account);
+            FollwersCount = Crawler.GetFollowerCount(account);
+            FollowingCount = Crawler.GetFollowingCount(account);
+            Date = Crawler.GetCreateDate(account);
+
+            latestTweet = Crawler.GetLatestTweet(account);
+            latestText = latestTweet.Text;
+            latestFavs = latestTweet.Favs;
+            lastestRTs = latestTweet.Rts;
+            popTweet = Crawler.GetMostPopular(tweets);
+            popText = popTweet.Text;
+            popFavs = popTweet.Favs;
+            PopRts = popTweet.Rts;
+
+            var tweetsDir = Crawler.OrderWithCutouff(Crawler.StatusToString(tweets), 10);
+            tweetsJson = JsonConvert.SerializeObject(tweetsDir);
+            tweetsJsonKeys = JsonConvert.SerializeObject(tweetsDir.Keys);
+            tweetsJsonVals = JsonConvert.SerializeObject(tweetsDir.Values);
+
+            var hashtagDir = Crawler.OrderWithCutouff(Crawler.HashtagToString(Crawler.GetHashtags(tweets)), 5);
+            hashJson = JsonConvert.SerializeObject(hashtagDir);
+            hashJsonKeys = JsonConvert.SerializeObject(hashtagDir.Keys);
+            hashJsonVals = JsonConvert.SerializeObject(hashtagDir.Values);
+
+            var mentionsDir = Crawler.OrderWithCutouff(Crawler.HashtagToString(Crawler.GetMensions(tweets)), 5);
+            mentionsJson = JsonConvert.SerializeObject(mentionsDir);
+            mentionsJsonKeys = JsonConvert.SerializeObject(mentionsDir.Keys);
+            mentionsJsonVals = JsonConvert.SerializeObject(mentionsDir.Values);
         }
 
         public string GetUserTwitter(string name)
@@ -37,7 +100,7 @@ namespace TermProject.Viewer
                 builder.Append(name);
                 builder.Append("\'");
 
-                MySqlCommand command = new MySqlCommand(builder.ToString(),connection);
+                MySqlCommand command = new MySqlCommand(builder.ToString(), connection);
                 object twitter = command.ExecuteScalar();
                 if (twitter is DBNull) return null;
 
@@ -58,12 +121,10 @@ namespace TermProject.Viewer
             return User.IsInRole("admin");
         }
 
-        protected void btn_serach_Click(object sender, EventArgs e)
+        protected void LogOut(object sender, EventArgs e)
         {
-            var tweets = Crawler.GetUserTimeline(tb_input.Text, int.Parse(tb_count.Text));
-            var list = Crawler.OrderWithCutouff(Crawler.StatusToString(tweets), 10);
-
-            mydiv.InnerHtml = Crawler.PrintList(list);
+            FormsAuthentication.SignOut();
+            FormsAuthentication.RedirectToLoginPage();
         }
     }
 }

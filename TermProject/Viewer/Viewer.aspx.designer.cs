@@ -22,40 +22,13 @@ namespace TermProject.Viewer {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl content;
         
         /// <summary>
-        /// tb_input control.
+        /// logout control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tb_input;
-        
-        /// <summary>
-        /// tb_count control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tb_count;
-        
-        /// <summary>
-        /// btn_serach control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btn_serach;
-        
-        /// <summary>
-        /// mydiv control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl mydiv;
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor logout;
         
         /// <summary>
         /// manage control.

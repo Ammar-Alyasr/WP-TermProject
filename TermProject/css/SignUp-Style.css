@@ -47,7 +47,7 @@
     transform: translate(-50%, -50%);
 }
 
-#login {
+#signin {
     width: 80%;
     margin: 10% auto 0;
 }
@@ -55,13 +55,6 @@
 form {
     margin: 0;
 }
-
-h3 {
-    color: #e74c3c;
-    font-size: 14px;
-    font-weight: normal;
-}
-
 
 input[type='text'], input[type='password'] {
     font-family: 'Open Sans', sans-serif;
@@ -86,19 +79,14 @@ input[type='text'], input[type='password'] {
         box-shadow: 0 0 3px #325282;
     }
 
-.checkbox {
-    font-size: 13px;
-    color: #999;
-}
-
-#btn_login {
+#CreateAccountBtn {
     font-family: 'Open Sans', sans-serif;
     border: none;
     color: white;
     height: 45px;
     -ms-border-radius: 5px;
     border-radius: 5px;
-    background-color: #3498db;
+    background-color: #3498db  ;
     display: block;
     width: 100%;
     font-size: 16px;
@@ -106,7 +94,7 @@ input[type='text'], input[type='password'] {
     margin-top: 20px;
 }
 
-    #btn_login:hover {
+    #CreateAccountBtn:hover {
         background-color: #2980b9;
         cursor: pointer;
         -webkit-transition: all .2s ease-in-out;
@@ -115,7 +103,7 @@ input[type='text'], input[type='password'] {
         -o-transition: all .2s ease-in-out;
     }
 
-#signin {
+#existing {
     text-align: center;
     background-color: #eee;
     width: 100%;
@@ -130,8 +118,8 @@ input[type='text'], input[type='password'] {
     border-bottom-right-radius: 8px;
 }
 
-#signin a {
+#existing a {
     margin-left: 10px;
-    color: #3498db  ;
+    color: #3498db;
 }
 

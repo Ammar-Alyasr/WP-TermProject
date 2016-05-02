@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Text.RegularExpressions;
 using TweetSharp;
@@ -10,7 +9,6 @@ namespace TermProject
     public class Crawler
     {
         private TwitterService _service;
-
         public Crawler()
         {
             Authenticate();
@@ -38,17 +36,17 @@ namespace TermProject
         public IEnumerable<TwitterStatus> GetSearchResults(string query, int toValue)
         {
             List<TwitterStatus> allTweets = new List<TwitterStatus>();
-            string maxid;
             int tweetcount = 0;
 
-            var tweets_search = _service.Search(new SearchOptions
+            var tweetsSearch = _service.Search(new SearchOptions
             {
                 Q = query,
-                Count = toValue
+                Count = toValue,
+                IncludeEntities = false
             });
-            List<TwitterStatus> resultList = new List<TwitterStatus>(tweets_search.Statuses);
-            maxid = resultList.Last().IdStr;
-            foreach (var tweet in tweets_search.Statuses)
+            List<TwitterStatus> resultList = new List<TwitterStatus>(tweetsSearch.Statuses);
+            var maxid = resultList.Last().IdStr;
+            foreach (var tweet in tweetsSearch.Statuses)
             {
                 allTweets.Add(tweet);
                 tweetcount++;
@@ -58,14 +56,14 @@ namespace TermProject
             while (maxid != null && tweetcount < toValue)
             {
                 maxid = resultList.Last().IdStr;
-                tweets_search = _service.Search(new SearchOptions
+                tweetsSearch = _service.Search(new SearchOptions
                 {
                     Q = query,
                     Count = toValue,
                     MaxId = Convert.ToInt64(maxid)
                 });
-                resultList = new List<TwitterStatus>(tweets_search.Statuses);
-                foreach (var tweet in tweets_search.Statuses)
+                resultList = new List<TwitterStatus>(tweetsSearch.Statuses);
+                foreach (var tweet in tweetsSearch.Statuses)
                 {
                     allTweets.Add(tweet);
                     tweetcount++;
@@ -83,7 +81,8 @@ namespace TermProject
             var tweets = _service.ListTweetsOnUserTimeline(new ListTweetsOnUserTimelineOptions
             {
                 ScreenName = name,
-                Count = toValue
+                Count = toValue,
+                IncludeRts = false
             });
             List<TwitterStatus> resultList = new List<TwitterStatus>(tweets);
             var maxid = resultList.Last().IdStr;
@@ -100,7 +99,8 @@ namespace TermProject
                 {
                     ScreenName = name,
                     Count = toValue,
-                    MaxId = Convert.ToInt64(maxid)
+                    MaxId = Convert.ToInt64(maxid),
+                    IncludeRts = false
                 });
                 resultList = new List<TwitterStatus>(tweets);
                 foreach (var tweet in tweets)
@@ -128,10 +128,10 @@ namespace TermProject
         }
 
         // returns a list of mensions from a list of tweets
-        public List<Match> GetMensions(IEnumerable<TwitterStatus> rawTweet)
+        public List<Match> GetMensions(IEnumerable<TwitterStatus> tweets)
         {
             Regex pattern = new Regex(@"@\w+");
-            List<MatchCollection> matches = rawTweet.Select(tweet => pattern.Matches(tweet.Text)).ToList();
+            List<MatchCollection> matches = tweets.Select(tweet => pattern.Matches(tweet.Text)).ToList();
             return matches.SelectMany(match => match.Cast<Match>()).ToList();
         }
 
@@ -140,6 +140,7 @@ namespace TermProject
         {
             return tweets.Select(tweet => tweet.CreatedDate.DayOfWeek).ToList();
         }
+
 
         public List<int> GetTime(IEnumerable<TwitterStatus> tweets, string type)
         {
@@ -158,64 +159,34 @@ namespace TermProject
             }
         }
 
-        // TODO
-        // still working on this one. It returns location of all a user's followers
-        public string GetFollowerLocations(string name)
+        // returns location of the first 1000 user's followers
+        public List<string> GetFollowerLocations(string name)
         {
-            ListFollowersOptions options = new ListFollowersOptions
+            List<string> followerLoc = new List<string>();
+            var options = new ListFollowersOptions { ScreenName = name, Count = 200, Cursor = -1 };
+            var followers = _service.ListFollowers(options);
+            int iter = 0;
+            while (followers.NextCursor != null && iter < 5)
             {
-                ScreenName = name,
-                IncludeUserEntities = true,
-                SkipStatus = false,
-                Cursor = -1
-            };
-            var lstFollowers = new List<TwitterUser>();
-
-            TwitterCursorList<TwitterUser> followers = _service.ListFollowers(options);
-
-            if (followers == null)
-            {
-                //ignore
-            }
-            else
-            {
-                while (followers.NextCursor != null)
+                followerLoc.AddRange(from user in followers where user.Location != string.Empty select user.Location);
+                if (followers.NextCursor != null && followers.NextCursor != 0)
                 {
                     options.Cursor = followers.NextCursor;
                     followers = _service.ListFollowers(options);
-
-
-                    if (followers == null)
-                    {
-                        //ignore
-                    }
-                    else
-                    {
-                        lstFollowers.AddRange(followers);
-                    }
-
-                    if (followers?.NextCursor != null && followers.NextCursor != 0)
-                    {
-                        options.Cursor = followers.NextCursor;
-                        followers = _service.ListFollowers(options);
-                    }
-                    else break;
+                    iter++;
                 }
+                else break;
             }
+            return followerLoc;
+        }
 
-            string str = "";
-            int count = 0;
-            foreach (var follower in lstFollowers)
-            {
-                count++;
-                str += count + ": " + follower.ScreenName + "<br/>";
-            }
-
-            return str;
+        public List<string> GetLocations(IEnumerable<TwitterStatus> tweets)
+        {
+            return (from tweet in tweets where tweet.Location != null select tweet.Place.FullName).ToList();
         }
 
         // returns the most popular tweet with fav and rt values
-        public string GetMostPopular(IEnumerable<TwitterStatus> tweets)
+        public Tweet GetMostPopular(IEnumerable<TwitterStatus> tweets)
         {
             int value = 0;
             int index = 0;
@@ -228,27 +199,75 @@ namespace TermProject
                 value = temp;
                 index = i;
             }
-
-            return $"{tweet[index].Text}\n{tweet[index].FavoriteCount} Favorites, {tweet[index].RetweetCount} Retweets";
+            Tweet popular = new Tweet(tweetToHtml(tweet[index].Text) + " (" + tweet[index].CreatedDate.ToShortDateString() + ")", tweet[index].FavoriteCount, tweet[index].RetweetCount);
+            return popular;
         }
 
-
-        public string GetUserProfileImage(string name)
+        public int GetAverageFavs(IEnumerable<TwitterStatus> tweets)
         {
-            var url = _service.GetUserProfileFor(new GetUserProfileForOptions {ScreenName = name}).ProfileImageUrl;
+            List<int> favList = tweets.Select(tweet => tweet.FavoriteCount).ToList();
+            int average = favList.Sum();
+            average /= favList.Count;
+            return average;
+        }
+
+        public int GetAverageRT(IEnumerable<TwitterStatus> tweets)
+        {
+            List<int> RTList = tweets.Select(tweet => tweet.RetweetCount).ToList();
+            int average = RTList.Sum();
+            average /= RTList.Count;
+            return average;
+        }
+
+        public TwitterUser GetProfileFor(string account)
+        {
+            return _service.GetUserProfileFor(new GetUserProfileForOptions { ScreenName = account });
+        }
+
+        public string GetUserProfileImage(TwitterUser user)
+        {
+            var url = user.ProfileImageUrl;
             url = Regex.Replace(url, "_normal", string.Empty);
             return url;
         }
 
-        public string GetBannerURL(string name)
+        public string GetBannerUrl(TwitterUser user)
         {
-            return _service.GetUserProfileFor(new GetUserProfileForOptions { ScreenName = name }).ProfileBannerUrl;
+            return user.ProfileBannerUrl;
         }
 
-        public string GetUserName(string name)
+        public string GetUserName(TwitterUser user)
         {
-            return _service.GetUserProfileFor(new GetUserProfileForOptions { ScreenName = name }).Name;
+            return user.Name;
         }
+
+        public string GetFollowerCount(TwitterUser user)
+        {
+            return $"{user.FollowersCount:N0}";
+        }
+
+        public string GetFollowingCount(TwitterUser user)
+        {
+            return $"{user.FriendsCount:N0}";
+        }
+
+        public string GetTweetsCount(TwitterUser user)
+        {
+            return $"{user.StatusesCount:N0}";
+        }
+
+        public string GetCreateDate(TwitterUser user)
+        {
+            return user.CreatedDate.ToShortDateString();
+        }
+
+        public Tweet GetLatestTweet(TwitterUser user)
+        {
+            Tweet tweet = new Tweet(tweetToHtml(user.Status.Text) + " (" + user.Status.CreatedDate.ToShortDateString() + ")", user.Status.FavoriteCount, user.Status.RetweetCount);
+            return tweet;
+        }
+
+
 
         /*------------------------------------------------------------------------------------------------------------------------
          * 
@@ -288,9 +307,9 @@ namespace TermProject
 
         readonly HashSet<string> _stopWords = new HashSet<string>
         {
-            "a" , "about" , "above" , "after" , "again" , "against" , "all" , "am", "amp" , "an", "and", "any", "are", "aren't", "as", "at", "be", "because", "been", "before", "being", "below", "between", "both", "but", "by", "can", "can't", "cannot", "could", "couldn't", "did", "didn't", "do", "does", "doesn't", "doing", "don't", "down", "during", "each" , "few",
+            "a" , "about" , "above" , "after" , "again" , "against" , "all" , "am", "amp" , "an", "and", "any", "are", "aren't", "as", "at", "be", "because", "been", "before", "being", "below", "between", "both", "but", "by", "can", "can't", "cannot", "co", "could", "couldn't", "did", "didn't", "do", "does", "doesn't", "doing", "don't", "down", "dr", "during", "each" , "few",
             "for", "from", "further", "get", "had", "hadn't", "has", "hasn't", "have", "haven't", "having", "he", "he'd", "he'll", "he's", "her", "here", "here's", "hers", "herself", "him", "himself", "his", "how", "how's", "http", "https", "i", "i'd", "i'll", "i'm", "i've", "if", "in", "into", "is", "isn't", "it", "it's", "its", "itself", "just", "let's", "ll", "me", "more", "most", "mustn't",
-            "my", "myself", "no", "nor", "not", "of", "off", "on", "once", "only", "or", "other", "ought", "our", "ours" , "ourselves", "out", "over", "own", "re", "rd","rt", "same", "shan't", "she", "she'd", "she'll", "she's", "should", "shouldn't", "so", "some","st" ,"such", "than", "that", "that's", "the", "their", "theirs", "them", "themselves", "then", "there", "there's", "these",
+            "my", "myself", "no", "nor", "not", "of", "off", "on", "once", "only", "or", "other", "ought", "our", "ours" , "ourselves", "out", "over", "own", "pts", "re", "rd","rt", "same", "shan't", "she", "she'd", "she'll", "she's", "should", "shouldn't", "so", "some","st" ,"such", "th", "than", "that", "that's", "the", "their", "theirs", "them", "themselves", "then", "there", "there's", "these",
             "they", "they'd", "they'll", "they're", "they've","this", "those", "through", "to", "too", "under", "until", "up", "us","ve", "very", "was", "wasn't", "we", "we'd", "we'll", "we're", "we've", "were", "weren't", "what", "what's", "when", "when's", "where", "where's", "which", "while", "who", "who's", "whom", "why", "why's", "will", "with", "won't", "would",
             "wouldn't", "you", "you'd", "you'll", "you're", "you've", "your", "yours", "yourself", "yourselves"
         };
@@ -322,8 +341,8 @@ namespace TermProject
             {
                 if (word == "") continue; //ignore the null that kept appearing
                 if (word.Length < 2) continue;
-                if(_stopWords.Contains(word)) continue;
-                 
+                if (_stopWords.Contains(word)) continue;
+
                 if (!dictionary.ContainsKey(word)) dictionary.Add(word, 1);
                 else dictionary[word]++;
             }
@@ -336,17 +355,14 @@ namespace TermProject
                 dictionary.Remove(key);
             }
             var list = dictionary.OrderByDescending(ac => ac.Value);
+
+            
             return list.ToDictionary(t => t.Key, t => t.Value);
         }
 
         public string PrintList(Dictionary<string, int> list)
         {
-            string str = "";
-            foreach (var value in list)
-            {
-                str += value + "<br />";
-            }
-            return str;
+            return list.Aggregate("", (current, value) => current + (value + "<br />"));
         }
 
         /*------------------------------------------------------------------------------------------------------------------------
@@ -355,8 +371,15 @@ namespace TermProject
          * 
          -----------------------------------------------------------------------------------------------------------------------*/
 
+        private string tweetToHtml(string msg)
+        {
+            string regex = @"((www\.|(http|https|ftp|news|file)+\:\/\/)[&#95;.a-z0-9-]+\.[a-z0-9\/&#95;:@=.+?,##%&~-]*[^.|\'|\# |!|\(|?|,| |>|<|;|\)])";
+            Regex r = new Regex(regex, RegexOptions.IgnoreCase);
+            return r.Replace(msg, "<a href=\"$1\" title=\"Click to open in a new window or tab\" target=\"&#95;blank\">$1</a>").Replace("href=\"www", "href=\"http://www");
+        }
+
         // returns a tweet without any of the twitter jargin
-        private string ParseText(string tweets)
+        private static string ParseText(string tweets)
         {
             Regex link = new Regex(@"http(s)?://([\w+?\.\w+])+([a-zA-Z0-9\~\!\@\#\$\%\^\&amp;\*\(\)_\-\=\+\\\/\?\.\:\;\'\,]*)?");
             Regex screenName = new Regex(@"@\w+");

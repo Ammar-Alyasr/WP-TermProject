@@ -22,8 +22,7 @@
                 <asp:Button ID="btn_login" Text="Login" OnClick="OnLogIn" runat="server" />
             </div>
             <div id="signin">
-                <p>New User?</p>
-				<asp:Button ID="btn_SignUp" Text="Sign Up" OnClick="SignUpPage" runat="server" />
+                <p>New User? <asp:LinkButton ID="btn_SignUp" Text="Sign Up" OnClick="SignUpPage" runat="server" /></p>
             </div>
         </form>
     </div>
@@ -31,7 +30,6 @@
 </html>
 
 <script language="C#" runat="server">
-
 
     protected void OnLogIn(object sender, EventArgs e)
     {
@@ -49,16 +47,14 @@
             Response.Redirect(url);
         }
         else Output.Text = "Invalid login";
-		
-		
     }
-	
-	
-	public void SignUpPage(object sender, EventArgs e)
-	{
-		Response.Redirect ("SignUp.aspx");
-	}
-	
+
+
+    public void SignUpPage(object sender, EventArgs e)
+    {
+        Response.Redirect ("SignUp.aspx");
+    }
+
     private static bool CustomAuthenticate(string username, string password)
     {
         MySqlConnection connection = new MySqlConnection("server = us-cdbr-iron-east-03.cleardb.net;" +
@@ -79,7 +75,7 @@
             MySqlCommand command = new MySqlCommand(builder.ToString(), connection);
 
             long count = (long) command.ExecuteScalar ();
-			return(count > 0);
+            return(count > 0);
         }
         catch (MySqlException)
         {
