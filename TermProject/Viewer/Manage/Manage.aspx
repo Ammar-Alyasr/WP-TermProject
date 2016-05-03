@@ -6,6 +6,7 @@
 <html>
 <head>
     <title>Manage Users</title>
+    <link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet" type="text/css" />
     <link href="../../css/Manage-Style.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -69,7 +70,7 @@
                                 Display="Dynamic" ValidationGroup="edit" ControlToValidate="twitterTxt">Required</asp:RequiredFieldValidator>
                         </EditItemTemplate>
                         <FooterTemplate>
-                            <asp:TextBox placeholder="twitter" ID="twitterTxt" runat="server"></asp:TextBox><br />
+                            <asp:TextBox placeholder="Twitter" ID="twitterTxt" runat="server"></asp:TextBox><br />
                             <asp:RequiredFieldValidator CssClass="reqField" ID="rfCN3" runat="server" ErrorMessage="*"
                                 Display="Dynamic" ValidationGroup="Add" ControlToValidate="twitterTxt">Required</asp:RequiredFieldValidator>
                         </FooterTemplate>
@@ -91,10 +92,10 @@
                         </EditItemTemplate>
                         <FooterTemplate>
                             <asp:DropDownList ID="roleTxt" runat="server">
-                                <asp:ListItem>Select Role</asp:ListItem>
-                                <asp:ListItem>family</asp:ListItem>
-                                <asp:ListItem>friend</asp:ListItem>
-                                <asp:ListItem>public</asp:ListItem>
+                                <asp:ListItem Value="" Text="Select Role"></asp:ListItem>
+                                <asp:ListItem Value="admin" Text="Admin"></asp:ListItem>
+                                <asp:ListItem Value="member" Text="Member"></asp:ListItem>
+                                <asp:ListItem Value="public" Text="Public"></asp:ListItem>
                             </asp:DropDownList>
                             <asp:RequiredFieldValidator CssClass="reqField" ID="rfCN4" runat="server" ErrorMessage="*"
                                 Display="Dynamic" ValidationGroup="Add" ControlToValidate="roleTxt">Required</asp:RequiredFieldValidator>
@@ -122,7 +123,13 @@
 
             </asp:GridView>
         </form>
-
+        <div id="nav">
+            <ul id="nav-content">
+                <li><a href="../Viewer.aspx">Home</a></li>
+                <li><a href="../../Doc.aspx">Documentation</a></li>
+                <li id="manage" runat="server" class="nav-select"><a href="#">Manage Users</a></li>
+            </ul>
+        </div>
     </div>
 </body>
 </html>

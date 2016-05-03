@@ -126,6 +126,9 @@ li {
         -ms-transition: all .2s ease-in-out;
         -o-transition: all .2s ease-in-out;
     }
+    #logout:focus { 
+        outline: none;
+    }
 
 /*-----------------------------------------------------------------------------------------
 
@@ -221,7 +224,7 @@ li {
 
 /*-----------------------------------------------------------------------------------------
 
-    Word Freq
+   Charts
 
 -----------------------------------------------------------------------------------------*/
 #wordcloud-cont {
@@ -245,10 +248,96 @@ li {
     border-right: 3px solid #182129;
 }
 
-#hashtags-title, #mentions-title {
+#hashtags-title, #mentions-title, #line-title {
     text-align: center;
 }
 
 #hashtag-cont, #mentions-cont {
     border-bottom: 3px solid #182129;
+}
+
+#mentions-cont {
+    position: relative;
+    padding-left: 5px;
+}
+
+#line-title {
+    margin-top: 530px;
+}
+
+#monthBtn, #daysBtn {
+    position: relative;
+    right: 2%;
+    float: right;
+    font-family: 'Varela Round', sans-serif;
+    text-transform: uppercase;
+    border: none;
+    color: #3498db;
+    background-color: #182129;
+    padding: 9px 18px;
+    -ms-border-radius: 20px;
+    border-radius: 20px;
+    font-size: 14px;
+    margin: 0 8px;
+}
+
+    #monthBtn:hover, #daysBtn:hover {
+        background: #3498db;
+        color: white;
+        -webkit-transition: all .2s ease-in-out;
+        -moz-transition: all .2s ease-in-out;
+        -ms-transition: all .2s ease-in-out;
+        -o-transition: all .2s ease-in-out;
+        cursor: pointer;
+    }
+    #monthBtn:focus, #daysBtn:focus {
+        outline: none;
+    }
+
+/*-----------------------------------------------------------------------------------------
+
+   Averages
+
+-----------------------------------------------------------------------------------------*/
+
+#averages div {
+    border: 3px solid #182129;
+    position: relative;
+    top: 280px;
+    text-align: center;
+    padding: 20px;
+    border-left: none;
+}
+
+.avg-val {
+    margin-top: 0;
+    font-size: 42px;
+    color: #3498db;
+    margin-bottom: 20px;
+}
+
+/*-----------------------------------------------------------------------------------------
+
+   Donuts
+
+-----------------------------------------------------------------------------------------*/
+
+#donut-cont {
+    position: relative;
+    top: 277px;
+    border-bottom: 3px solid #182129;
+}
+
+.donut-title {
+    margin-top: 0;
+    text-align: center;
+}
+
+#donut-hour, #donut-day {
+    padding: 30px 0;
+    border: 3px solid #182129;
+}
+
+#donut-day {
+    border-left: none; 
 }

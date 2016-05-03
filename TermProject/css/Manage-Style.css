@@ -1,47 +1,78 @@
-﻿body {
-    font-family: 'Open Sans', sans-serif;
-    background-color: #262e38;
+﻿body, html {
     margin: 0;
-    width: 100%;
+    background: #091315;
+    height: 100%;
+    font-family: 'Varela Round', sans-serif;
+    letter-spacing: 1px;
 }
+
+
+#container {
+    width: 85%;
+    min-width: 1450px;
+    position: relative;
+    top: 5%;
+    height: 95%;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+form {
+    background: #262e38;
+    float: right;
+    width: 86%;
+    min-width: 1230px;
+    height: 100%;
+    color: #555;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+/*-----------------------------------------------------------------------------------------
+
+    Navbar
+
+-----------------------------------------------------------------------------------------*/
+
+
+#nav {
+    float: left;
+    background: #182129;
+    width: 14%;
+    height: 100%;
+    min-width: 200px;
+    text-transform: uppercase;
+}
+
+ul {
+    list-style-type: none;
+}
+
+li {
+    margin: 20px 0;
+}
+
+    li a {
+        text-decoration: none;
+        color: #aaa;
+    }
 
 form {
     overflow-x: auto;
 }
 
-
-#container {
-    position: relative;
-    top: 240px;
-    width: 70%;
-    min-width: 720px;
-    overflow-x: auto;
-    background-color: white;
-    margin: 0 auto;
-    -ms-border-radius: 6px;
-    border-radius: 6px;
-    -webkit-box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
-    -ms-box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
-    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
-}
-
-#top {
-    width: 90%;
-    margin: 40px auto;
-}
-
 #sl-title {
-    color: #3498db;
+    color: #262e38;
     margin: 35px 0;
     display: inline;
 }
 
 
 .myGrid {
-    width: 90%;
+    width: 85%;
     position: relative;
     margin: 0 auto;
-    background-color: #fff;
+    background-color: #262e38;
     border: none;
     overflow-x: auto;
 }
@@ -51,9 +82,9 @@ form {
     }
 
 .header {
+    text-transform: uppercase;
     overflow: hidden;
     position: relative;
-    border-bottom: 2px solid #e5e5e5;
     height: 30px;
 }
 
@@ -79,16 +110,16 @@ td, th {
 
 
 .trow1 {
-    background: #fff;
+    background: #182129;
 }
 
 .trow2 {
-    background: #fbfbfb;
+    background: #262e38  ;
 }
 
     .trow1 td, .trow2 td {
         font-size: 14px;
-        color: #555;
+        color: #aaa;
         line-height: 28px;
         text-align: left;
         padding: 12px;
@@ -105,10 +136,10 @@ input[type='text'], select {
     -moz-transition: all .2s ease-in-out;
     -ms-transition: all .2s ease-in-out;
     -o-transition: all .2s ease-in-out;
-    border: 1px solid #ddd;
-    border-radius: 3px;
+    border: none;
+    border-bottom: 2px solid #aaa;
     outline: none;
-    color: #555;
+    color: #aaa;
     height: 28px;
     padding-left: 5px;
     width: 100%;
@@ -116,13 +147,9 @@ input[type='text'], select {
     background-color: transparent;
 }
 
-    input[type='text']:focus, select:focus {
-        -webkit-box-shadow: 0 0 3px #385b91;
-        -ms-box-shadow: 0 0 3px #385b91;
-        box-shadow: 0 0 3px #385b91;
-        border: 1px solid #ddd;
+    input[type='text']:hover, select:hover, input[type='text']:focus, select:focus {
+        border-color: #45b29d;
     }
-
 
 #myGridView_addBtn, #btn_back, input[type='submit'] {
     font-family: 'Open Sans', sans-serif;
@@ -162,7 +189,7 @@ input[type='submit'] {
 
 .reqField {
     font-size: 14px;
-    color: #45b29d;
+    color: #df5a49;
     font-weight: bold;
     padding: 5px;
 }

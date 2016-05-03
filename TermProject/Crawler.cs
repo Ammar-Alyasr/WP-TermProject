@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 using TweetSharp;
@@ -84,9 +85,10 @@ namespace TermProject
                 Count = toValue,
                 IncludeRts = false
             });
-            List<TwitterStatus> resultList = new List<TwitterStatus>(tweets);
+            var twitterStatuses = tweets as IList<TwitterStatus> ?? tweets.ToList();
+            List<TwitterStatus> resultList = new List<TwitterStatus>(twitterStatuses);
             var maxid = resultList.Last().IdStr;
-            foreach (var tweet in tweets)
+            foreach (var tweet in twitterStatuses)
             {
                 allTweets.Add(tweet);
                 tweetcount++;
@@ -102,8 +104,9 @@ namespace TermProject
                     MaxId = Convert.ToInt64(maxid),
                     IncludeRts = false
                 });
-                resultList = new List<TwitterStatus>(tweets);
-                foreach (var tweet in tweets)
+                var collection = tweets as IList<TwitterStatus> ?? tweets.ToList();
+                resultList = new List<TwitterStatus>(collection);
+                foreach (var tweet in collection)
                 {
                     allTweets.Add(tweet);
                     tweetcount++;
@@ -199,8 +202,138 @@ namespace TermProject
                 value = temp;
                 index = i;
             }
-            Tweet popular = new Tweet(tweetToHtml(tweet[index].Text) + " (" + tweet[index].CreatedDate.ToShortDateString() + ")", tweet[index].FavoriteCount, tweet[index].RetweetCount);
+            Tweet popular = new Tweet(TweetToHtml(tweet[index].Text) + " (" + tweet[index].CreatedDate.ToShortDateString() + ")", tweet[index].FavoriteCount, tweet[index].RetweetCount);
             return popular;
+        }
+
+        public DataByTime GetFavsOverDay(IEnumerable<TwitterStatus> tweets)
+        {
+            var favsList = new List<int>();
+            var dateList = new List<string>();
+            var twitterStatuses = tweets as IList<TwitterStatus> ?? tweets.ToList();
+            int day = twitterStatuses[0].CreatedDate.DayOfYear;
+            int value = 0;
+            var count = new List<int>();
+            int val = 0;
+            int year = twitterStatuses[0].CreatedDate.Year;
+            foreach (var tweet in twitterStatuses)
+            {
+                if (tweet.CreatedDate.DayOfYear == day)
+                {
+                    val++;
+                    value += tweet.FavoriteCount;
+                }
+                else
+                {
+                    count.Add(val);
+                    val = 0;
+                    dateList.Add(new DateTime(year, 1, 1).AddDays(day -1).ToShortDateString());
+                    favsList.Add(value);
+                    value = tweet.FavoriteCount;
+                    day = tweet.CreatedDate.DayOfYear;
+                }
+            }
+            dateList.Reverse();
+            favsList.Reverse();
+            count.Reverse();
+            return new DataByTime(dateList, favsList, count);
+        }
+
+        public DataByTime GetRtsOverDay(IEnumerable<TwitterStatus> tweets)
+        {
+            var rtsList = new List<int>();
+            var dateList = new List<string>();
+            var twitterStatuses = tweets as IList<TwitterStatus> ?? tweets.ToList();
+            int day = twitterStatuses[0].CreatedDate.DayOfYear;
+            int value = 0;
+            var count = new List<int>();
+            int val = 0;
+            int year = twitterStatuses[0].CreatedDate.Year;
+            foreach (var tweet in twitterStatuses)
+            {
+                if (tweet.CreatedDate.DayOfYear == day)
+                {
+                    val++;
+                    value += tweet.RetweetCount;
+                }
+                else
+                {
+                    count.Add(val);
+                    val = 0;
+                    dateList.Add(new DateTime(year, 1, 1).AddDays(day - 1).ToShortDateString());
+                    rtsList.Add(value);
+                    value = tweet.RetweetCount;
+                    day = tweet.CreatedDate.DayOfYear;
+                }
+            }
+            dateList.Reverse();
+            rtsList.Reverse();
+            count.Reverse();
+            return new DataByTime(dateList, rtsList, count);
+        }
+
+        public DataByTime GetFavsOverMonth(IEnumerable<TwitterStatus> tweets)
+        { 
+            var favsList = new List<int>();
+            var dateList = new List<string>();
+            var twitterStatuses = tweets as IList<TwitterStatus> ?? tweets.ToList();
+            int month = twitterStatuses[0].CreatedDate.Month;
+            int value = 0;
+            var count = new List<int>();
+            int val = 0;
+            foreach (var tweet in twitterStatuses)
+            {
+                if (tweet.CreatedDate.Month == month)
+                {
+                    val++;
+                    value += tweet.FavoriteCount;
+                }
+                else
+                {
+                    count.Add(val);
+                    val = 0;
+                    dateList.Add(CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(month));
+                    favsList.Add(value);
+                    value = tweet.FavoriteCount;
+                    month = tweet.CreatedDate.Month;
+                }
+            }
+            dateList.Reverse();
+            favsList.Reverse();
+            count.Reverse();
+            return new DataByTime(dateList, favsList, count);
+        }
+
+        public DataByTime GetRtsOverMonth(IEnumerable<TwitterStatus> tweets)
+        {
+            var rtsList = new List<int>();
+            var dateList = new List<string>();
+            var twitterStatuses = tweets as IList<TwitterStatus> ?? tweets.ToList();
+            int month = twitterStatuses[0].CreatedDate.Month;
+            int value = 0;
+            var count = new List<int>();
+            int val = 0;
+            foreach (var tweet in twitterStatuses)
+            {
+                if (tweet.CreatedDate.Month == month)
+                {
+                    val++;
+                    value += tweet.RetweetCount;
+                }
+                else
+                {
+                    count.Add(val);
+                    val = 0;
+                    dateList.Add(CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(month));
+                    rtsList.Add(value);
+                    value = tweet.RetweetCount;
+                    month = tweet.CreatedDate.Month;
+                }
+            }
+            dateList.Reverse();
+            rtsList.Reverse();
+            count.Reverse();
+            return new DataByTime(dateList, rtsList, count);
         }
 
         public int GetAverageFavs(IEnumerable<TwitterStatus> tweets)
@@ -211,7 +344,7 @@ namespace TermProject
             return average;
         }
 
-        public int GetAverageRT(IEnumerable<TwitterStatus> tweets)
+        public int GetAverageRt(IEnumerable<TwitterStatus> tweets)
         {
             List<int> RTList = tweets.Select(tweet => tweet.RetweetCount).ToList();
             int average = RTList.Sum();
@@ -263,7 +396,7 @@ namespace TermProject
 
         public Tweet GetLatestTweet(TwitterUser user)
         {
-            Tweet tweet = new Tweet(tweetToHtml(user.Status.Text) + " (" + user.Status.CreatedDate.ToShortDateString() + ")", user.Status.FavoriteCount, user.Status.RetweetCount);
+            Tweet tweet = new Tweet(TweetToHtml(user.Status.Text) + " (" + user.Status.CreatedDate.ToShortDateString() + ")", user.Status.FavoriteCount, user.Status.RetweetCount);
             return tweet;
         }
 
@@ -296,7 +429,35 @@ namespace TermProject
         // converts a list of hours into a giant string of them
         public string HoursToString(List<int> hours)
         {
-            return hours.Aggregate("", (current, hour) => current + (hour + " "));
+            List<string> newList = new List<string>();
+            
+            foreach (var hour in hours)
+            {
+                string val = "";
+                switch (hour)
+                {
+                    case 0:
+                        val = "12AM";
+                        newList.Add(val);
+                        break;
+                    case 12:
+                        val = "12PM";
+                        newList.Add(val);
+                        break;
+                    default:
+                        if (hour > 12)
+                        {
+                            var temp = hour;
+                            temp -= 12;
+                            val = temp + "PM";
+                            newList.Add(val);
+                        }
+                        else newList.Add(hour + "AM");
+                        break;
+                }
+            }
+
+            return newList.Aggregate("", (current, item) => current + (item + " "));
         }
 
         /*------------------------------------------------------------------------------------------------------------------------
@@ -308,7 +469,7 @@ namespace TermProject
         readonly HashSet<string> _stopWords = new HashSet<string>
         {
             "a" , "about" , "above" , "after" , "again" , "against" , "all" , "am", "amp" , "an", "and", "any", "are", "aren't", "as", "at", "be", "because", "been", "before", "being", "below", "between", "both", "but", "by", "can", "can't", "cannot", "co", "could", "couldn't", "did", "didn't", "do", "does", "doesn't", "doing", "don't", "down", "dr", "during", "each" , "few",
-            "for", "from", "further", "get", "had", "hadn't", "has", "hasn't", "have", "haven't", "having", "he", "he'd", "he'll", "he's", "her", "here", "here's", "hers", "herself", "him", "himself", "his", "how", "how's", "http", "https", "i", "i'd", "i'll", "i'm", "i've", "if", "in", "into", "is", "isn't", "it", "it's", "its", "itself", "just", "let's", "ll", "me", "more", "most", "mustn't",
+            "for", "from", "further", "get", "gt","had", "hadn't", "has", "hasn't", "have", "haven't", "having", "he", "he'd", "he'll", "he's", "her", "here", "here's", "hers", "herself", "him", "himself", "his", "how", "how's", "http", "https", "i", "i'd", "i'll", "i'm", "i've", "if", "in", "into", "is", "isn't", "it", "it's", "its", "itself", "just", "let's", "ll", "me", "more", "most", "mustn't",
             "my", "myself", "no", "nor", "not", "of", "off", "on", "once", "only", "or", "other", "ought", "our", "ours" , "ourselves", "out", "over", "own", "pts", "re", "rd","rt", "same", "shan't", "she", "she'd", "she'll", "she's", "should", "shouldn't", "so", "some","st" ,"such", "th", "than", "that", "that's", "the", "their", "theirs", "them", "themselves", "then", "there", "there's", "these",
             "they", "they'd", "they'll", "they're", "they've","this", "those", "through", "to", "too", "under", "until", "up", "us","ve", "very", "was", "wasn't", "we", "we'd", "we'll", "we're", "we've", "were", "weren't", "what", "what's", "when", "when's", "where", "where's", "which", "while", "who", "who's", "whom", "why", "why's", "will", "with", "won't", "would",
             "wouldn't", "you", "you'd", "you'll", "you're", "you've", "your", "yours", "yourself", "yourselves"
@@ -356,7 +517,7 @@ namespace TermProject
             }
             var list = dictionary.OrderByDescending(ac => ac.Value);
 
-            
+
             return list.ToDictionary(t => t.Key, t => t.Value);
         }
 
@@ -371,9 +532,9 @@ namespace TermProject
          * 
          -----------------------------------------------------------------------------------------------------------------------*/
 
-        private string tweetToHtml(string msg)
+        private static string TweetToHtml(string msg)
         {
-            string regex = @"((www\.|(http|https|ftp|news|file)+\:\/\/)[&#95;.a-z0-9-]+\.[a-z0-9\/&#95;:@=.+?,##%&~-]*[^.|\'|\# |!|\(|?|,| |>|<|;|\)])";
+            const string regex = @"((www\.|(http|https|ftp|news|file)+\:\/\/)[&#95;.a-z0-9-]+\.[a-z0-9\/&#95;:@=.+?,##%&~-]*[^.|\'|\# |!|\(|?|,| |>|<|;|\)])";
             Regex r = new Regex(regex, RegexOptions.IgnoreCase);
             return r.Replace(msg, "<a href=\"$1\" title=\"Click to open in a new window or tab\" target=\"&#95;blank\">$1</a>").Replace("href=\"www", "href=\"http://www");
         }

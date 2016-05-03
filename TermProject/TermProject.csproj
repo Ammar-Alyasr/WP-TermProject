@@ -87,12 +87,14 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="css\grid12.css" />
+    <Content Include="css\Doc-Style.css" />
     <Content Include="scripts\Chart.js" />
     <Content Include="css\SignUp-Style.css" />
     <Content Include="scripts\d3.layout.cloud.js" />
     <Content Include="Global.asax" />
     <Content Include="css\Login-Style.css" />
     <Content Include="css\Manage-Style.css" />
+    <Content Include="Doc.aspx" />
     <Content Include="Viewer\Manage\Manage.aspx" />
     <Content Include="SignUp.aspx" />
     <Content Include="Login.aspx" />
@@ -112,6 +114,7 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataByTime.cs" />
     <Compile Include="Tweets.cs" />
     <Compile Include="SignUp.aspx.cs">
       <DependentUpon>SignUp.aspx</DependentUpon>

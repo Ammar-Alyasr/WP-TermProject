@@ -1,0 +1,105 @@
+﻿body, html {
+    margin: 0;
+    background: #091315;
+    height: 100%;
+    font-family: 'Varela Round', sans-serif;
+    letter-spacing: 1px;
+}
+
+
+#container {
+    width: 85%;
+    min-width: 1450px;
+    position: relative;
+    top: 5%;
+    height: 95%;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+
+#content {
+    background: #262e38;
+    float: right;
+    width: 86%;
+    min-width: 1230px;
+    height: 100%;
+    color: #aaa;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+#help, #tech {
+    width: 80%;
+    margin: 0 auto;
+    padding-top: 3%;
+}
+
+.content-title {
+    color: #3498db;
+}
+
+h4 {
+    font-size: 18px;
+    color: #ddd;
+}
+
+#spacer {
+    height: 210px;
+    width: 5px;
+    background: #3498db;
+    display: inline;
+    float: left;
+    margin-right: 30px;
+}
+
+
+#spacer2 {
+    height: 80%;
+    width: 5px;
+    background: #3498db;
+    display: inline;
+    float: left;
+    margin-right: 30px;
+    margin-bottom: 5%;
+}
+
+#help p {
+    margin-top: 0; 
+}
+
+#tech p {
+    margin-left: 60px;
+}
+
+#tech h4 {
+    margin-top: 0;
+}
+/*-----------------------------------------------------------------------------------------
+
+    Navbar
+
+-----------------------------------------------------------------------------------------*/
+
+
+#nav {
+    float: left;
+    background: #182129;
+    width: 14%;
+    height: 100%;
+    min-width: 200px;
+    text-transform: uppercase;
+}
+
+ul {
+    list-style-type: none;
+}
+
+li {
+    margin: 20px 0;
+}
+
+    li a {
+        text-decoration: none;
+        color: #aaa;
+    }
